@@ -1,0 +1,11 @@
+{
+  "name": "schema",
+  "version": "1.0.0",
+  "exports": "./index.ts",
+  "files": [
+    "ShopMessage.json"
+  ],
+  "dependencies": {
+    "ajv": "^8.12.0"
+  }
+}
