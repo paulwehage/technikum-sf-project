@@ -1,31 +1,27 @@
 import { Kafka } from "kafkajs";
 import { SchemaRegistry, SchemaType } from "@kafkajs/confluent-schema-registry";
+import { ShopMessage, ShopMessageSchema } from "@swf/schema";
 
-const registry = new SchemaRegistry({ host: "http://localhost:8081" });
+const registry = new SchemaRegistry(
+  { host: "http://localhost:8081" },
+  {
+    [SchemaType.JSON]: { strict: true },
+  }
+);
 const kafka = new Kafka({
   brokers: ["localhost:9092"],
 });
 
 const producer = kafka.producer();
 
-const ShopMessageSchema = {
-  type: "record",
-  name: "ShopMessage",
-  namespace: "examples",
-  fields: [
-    { name: "shopName", type: "string" },
-    { name: "date", type: { type: "string", logicalType: "date" } },
-    { name: "inStock", type: "boolean" },
-    { name: "price", type: "float" },
-  ],
-};
-
 async function registerSchema() {
-  const schema = JSON.stringify(ShopMessageSchema);
-  const { id } = await registry.register({
-    type: SchemaType.AVRO,
-    schema,
-  });
+  const { id } = await registry.register(
+    { type: SchemaType.JSON, schema: JSON.stringify(ShopMessageSchema) },
+    {
+      subject: "ShopMessage",
+    }
+  );
+  console.log({ id });
 
   return id;
 }
@@ -33,16 +29,24 @@ async function registerSchema() {
 async function fetchData() {
   console.log("Fetching data...");
 
+  const message: ShopMessage = {
+    date: "2021-01-01",
+    inStock: true,
+    price: 100,
+    shopName: "shop1",
+  };
+  const encoded = await registry.encode(1, message);
+
   await producer.connect();
   await producer.send({
     topic: "test-topic",
-    messages: [{ value: "Hello KafkaJS user!" }],
+    messages: [{ value: encoded }],
   });
 }
 
 async function main() {
-  const schemaId = await registerSchema();
-  console.log(schemaId);
+  await registerSchema();
+  await fetchData();
 }
 
 main();

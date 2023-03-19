@@ -1,1 +1,5 @@
-export { ShopMessage, ShopMessageSchema } from "./ShopMessage";
+export {
+  ShopMessage,
+  ShopMessageSchema,
+  validateShopMessage,
+} from "./ShopMessage";

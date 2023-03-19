@@ -1,13 +1,14 @@
 {
-  "name": "crawler",
+  "name": "@swf/crawler",
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node main.ts"
   },
   "dependencies": {
     "@kafkajs/confluent-schema-registry": "^3.3.0",
-    "kafkajs": "^2.2.4",
-    "schema": "*"
+    "@swf/schema": "*",
+    "ajv": "^8.12.0",
+    "kafkajs": "^2.2.4"
   },
   "devDependencies": {
     "@types/node": "^18.14.6",
