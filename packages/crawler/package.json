@@ -2,15 +2,19 @@
   "name": "@swf/crawler",
   "version": "1.0.0",
   "scripts": {
-    "start": "ts-node main.ts"
+    "start": "ts-node crawl.ts"
   },
   "dependencies": {
-    "@kafkajs/confluent-schema-registry": "^3.3.0",
     "@swf/schema": "*",
+    "@swf/common": "*",
+    "@kafkajs/confluent-schema-registry": "^3.3.0",
     "ajv": "^8.12.0",
+    "jsdom": "^21.1.1",
+    "kafka-streams": "^5.0.0",
     "kafkajs": "^2.2.4"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.0",
     "@types/node": "^18.14.6",
     "prettier": "^2.8.4",
     "ts-node": "^10.9.1"

@@ -1,0 +1,9 @@
+{
+  "name": "@swf/common",
+  "version": "1.0.0",
+  "exports": "./index.ts",
+  "devDependencies": {
+    "@types/node": "^18.15.3",
+    "typescript": "^5.0.2"
+  }
+}

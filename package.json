@@ -6,7 +6,8 @@
   ],
   "scripts": {
     "fmt": "prettier --write .",
-    "start:crawler": "npm -w packages/crawler run start"
+    "start:crawler": "npm -w packages/crawler run start",
+    "start:data": "npm -w packages/data run start"
   },
   "devDependencies": {
     "prettier": "^2.8.4",

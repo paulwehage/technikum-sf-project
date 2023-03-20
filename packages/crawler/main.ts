@@ -21,7 +21,6 @@ async function registerSchema() {
       subject: "ShopMessage",
     }
   );
-  console.log({ id });
 
   return id;
 }
