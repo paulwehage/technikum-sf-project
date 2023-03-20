@@ -1,21 +1,10 @@
 import { Kafka } from "kafkajs";
 
-import { KafkaStreams } from "kafka-streams";
+import { KafkaStreams, KafkaStreamsConfig } from "kafka-streams";
+import { SchemaRegistry, SchemaType } from "@kafkajs/confluent-schema-registry";
 
-const kafkaStreams = new KafkaStreams(config);
-kafkaStreams.on("error", (error) => console.error(error));
-
-const kafkaTopicName = "test-topic";
-const stream = kafkaStreams.getKStream(kafkaTopicName);
-stream.forEach((message) => console.log(message));
-stream.start().then(
-  () => {
-    console.log("stream started, as kafka consumer is ready.");
-  },
-  (error) => {
-    console.log("streamed failed to start: " + error);
-  }
-);
+import { ShopMessage, ShopMessageSchema } from "@swf/schema";
+import { TOPIC_SHOP_MESSAGES, TOPIC_SHOP_AVAILABILITY, TOPIC_AVERAGE_SHOP__PRICE, CONSUMER_GROUP_SHOP_MESSAGES, KAFKAHOST } from "@swf/common";
 
 //format of an incoming kafka message (equals to kafka-node's format)
 // {
@@ -27,34 +16,49 @@ stream.start().then(
 //   key: -1
 // }
 
-console.log("Writing sample data to topic");
 
-const kafka = new Kafka({
-  brokers: ["localhost:9092"],
-});
+const config: KafkaStreamsConfig = {
+  kafkaHost: KAFKAHOST,
+  groupId: CONSUMER_GROUP_SHOP_MESSAGES,
+  workerPerPartition: 1,
+  batchOptions: {
+    batchSize: 5,
+    commitEveryNBatch: 1,
+    concurrency: 1,
+    commitSync: false,
+    noBatchCommits: false
+  },
+    options: {
+      sessionTimeout: 8000,
+      protocol: ['roundrobin'],
+      fromOffset: 'latest',
+      fetchMaxBytes: 1024 * 100,
+      fetchMinBytes: 1,
+      fetchMaxWaitMs: 10,
+      heartbeatInterval: 250,
+      retryMinTimeout: 250,
+      requireAcks: 1,
+      ackTimeoutMs: 100,
+      partitionerType: 3
+  }
+};
 
-const producer = kafka.producer();
-const consumer = kafka.consumer({ groupId: "test-group" });
+const kafkaStreams = new KafkaStreams(config);
 
 async function main() {
-  await producer.connect();
-  await producer.send({
-    topic: "test-topic",
-    messages: [{ value: "Hello KafkaJS user!" }],
-  });
 
-  await consumer.connect();
-  await consumer.subscribe({ topic: "test-topic", fromBeginning: true });
+  const stream = kafkaStreams.getKStream(TOPIC_SHOP_MESSAGES);
 
-  await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      console.log({
-        partition,
-        offset: message.offset,
-        value: message.value?.toString(),
-      });
+
+  stream.mapJSONConvenience().forEach((message) => console.log(message));
+  stream.start().then(
+    () => {
+      console.log("stream started, as kafka consumer is ready.");
     },
-  });
+    (error) => {
+      console.log("streamed failed to start: " + error);
+    }
+  );
 }
 
 main();

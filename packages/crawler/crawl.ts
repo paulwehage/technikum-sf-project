@@ -107,7 +107,7 @@ async function startCrawling() {
 
       await producer.send({
         topic: TOPIC_SHOP_MESSAGES,
-        messages: [{ value: encoded }],
+        messages: [{  key: shop.name, value: encoded }],
       });
     }
 
