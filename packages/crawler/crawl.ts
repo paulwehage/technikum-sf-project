@@ -2,7 +2,7 @@ import jsdom from "jsdom";
 import { Kafka } from "kafkajs";
 import { SchemaRegistry, SchemaType } from "@kafkajs/confluent-schema-registry";
 
-import { ShopMessage } from "@swf/schema";
+import { ShopMessage, ShopMessageSchema } from "@swf/schema";
 import { sleep, TOPIC_SHOP_MESSAGES } from "@swf/common";
 
 const { JSDOM } = jsdom;
@@ -60,6 +60,7 @@ async function crawl(shop: Shop) {
   )?.textContent;
 
   if (!priceRaw) {
+    console.log(`Could not parse price: ${shop.name}`);
     return null;
   }
 
@@ -82,9 +83,20 @@ async function crawl(shop: Shop) {
   return msg;
 }
 
+async function registerSchema() {
+  const { id } = await registry.register(
+    { type: SchemaType.JSON, schema: JSON.stringify(ShopMessageSchema) },
+    {
+      subject: "ShopMessage",
+    }
+  );
+
+  return id;
+}
+
 async function startCrawling() {
   await producer.connect();
-  const schemaId = await registry.getRegistryId("ShopMessage", 1);
+  const schemaId = await registerSchema();
 
   while (true) {
     console.log("Crawling shops...");
@@ -97,9 +109,9 @@ async function startCrawling() {
         topic: TOPIC_SHOP_MESSAGES,
         messages: [{ value: encoded }],
       });
-
-      await sleep(5 * 1000);
     }
+
+    await sleep(5 * 1000);
   }
 }
 

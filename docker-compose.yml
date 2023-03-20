@@ -12,7 +12,7 @@ services:
   schema-registry:
     image: confluentinc/cp-schema-registry:latest
     depends_on:
-      - kafka0
+      - kafka
     ports:
       - "8081:8081"
     environment:
@@ -20,7 +20,7 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "kafka:29092"
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
 
-  kafka0:
+  kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
@@ -35,18 +35,17 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_HOST://kafka:29092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-
-  kafka-ui:
-    container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest
-    ports:
-      - 8080:8080
-    depends_on:
-      - kafka0
-      - schema-registry
-    environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka0:29092
-      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
-      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
-      DYNAMIC_CONFIG_ENABLED: "true"
+  # kafka-ui:
+  #   container_name: kafka-ui
+  #   image: provectuslabs/kafka-ui:latest
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     - kafka0
+  #     - schema-registry
+  #   environment:
+  #     KAFKA_CLUSTERS_0_NAME: local
+  #     KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka0:29092
+  #     KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+  #     KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+  #     DYNAMIC_CONFIG_ENABLED: "true"
