@@ -1,16 +1,16 @@
 {
-  "name": "@swf/data",
+  "name": "@swf/data-transform",
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node main.ts"
   },
   "dependencies": {
+    "@kafkajs/confluent-schema-registry": "^3.3.0",
     "kafka-streams": "^5.0.0",
     "kafkajs": "^2.2.4"
   },
   "devDependencies": {
     "@types/node": "^18.14.6",
-    "prettier": "^2.8.4",
     "ts-node": "^10.9.1"
   }
 }

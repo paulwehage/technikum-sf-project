@@ -1,13 +1,15 @@
 {
-  "name": "mono",
+  "name": "@swf/mono",
   "version": "1.0.0",
   "workspaces": [
     "./packages/*"
   ],
   "scripts": {
     "fmt": "prettier --write .",
+    "start": "npm run start:crawler && npm run start:data-transform && npm run start:api",
     "start:crawler": "npm -w packages/crawler run start",
-    "start:data": "npm -w packages/data run start"
+    "start:data-transform": "npm -w packages/data-transform run start",
+    "start:api": "npm -w packages/api run start"
   },
   "devDependencies": {
     "prettier": "^2.8.4",
