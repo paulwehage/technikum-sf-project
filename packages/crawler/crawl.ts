@@ -60,8 +60,7 @@ async function crawl(shop: Shop) {
   )?.textContent;
 
   if (!priceRaw) {
-    console.log(`Could not parse price: ${shop.name}`);
-    return null;
+    throw new Error(`Could not parse price: ${shop.name}`);
   }
 
   // How can I extract the price out of this string in JavaScript:
@@ -102,12 +101,20 @@ async function startCrawling() {
     console.log("Crawling shops...");
 
     for (const shop of shops) {
-      const msg = await crawl(shop);
+      let msg: ShopMessage;
+
+      try {
+        msg = await crawl(shop);
+      } catch (e) {
+        console.log(`Could not crawl shop: ${shop.name}`);
+        continue;
+      }
+
       const encoded = await registry.encode(schemaId, msg);
 
       await producer.send({
         topic: TOPIC_SHOP_MESSAGES,
-        messages: [{  key: shop.name, value: encoded }],
+        messages: [{ key: shop.name, value: encoded }],
       });
     }
 
