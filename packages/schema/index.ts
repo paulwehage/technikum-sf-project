@@ -1,5 +1,11 @@
 export {
-  ShopMessage,
-  ShopMessageSchema,
-  validateShopMessage,
-} from "./ShopMessage";
+  RealEstateMessage,
+  RealEstateMessageSchema,
+  validateRealEstateMessage,
+} from "./RealEstateMessage";
+
+export {
+  RealEstateAverageMessage,
+  RealEstateAverageMessageSchema,
+  validateRealEstateAverageMessage,
+} from "./RealEstateAverageMessage";

@@ -1,28 +1,12 @@
-import { Kafka } from "kafkajs";
+import { createClient } from "redis";
 
-import { TOPIC_AVERAGE_PRICE } from "@swf/common";
-
-const kafka = new Kafka({
-  brokers: ["localhost:9092"],
-});
-
-const consumer = kafka.consumer({
-  groupId: "api",
-});
+const client = createClient();
 
 async function main() {
-  await consumer.connect();
-  await consumer.subscribe({ topic: TOPIC_AVERAGE_PRICE, fromBeginning: true });
+  await client.connect();
 
-  await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      console.log({
-        partition,
-        offset: message.offset,
-        value: message.value?.toString(),
-      });
-    },
-  });
+  const value = await client.ts.get("district-1");
+  console.log(value);
 }
 
 main();

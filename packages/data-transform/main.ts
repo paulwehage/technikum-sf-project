@@ -1,8 +1,12 @@
 import { KafkaStreams } from "kafka-streams";
 import { SchemaRegistry, SchemaType } from "@kafkajs/confluent-schema-registry";
 
-import { TOPIC_AVERAGE_PRICE, TOPIC_SHOP_MESSAGES } from "@swf/common";
-import { ShopMessage } from "@swf/schema";
+import { TOPIC_IMMO_AVG, TOPIC_IMMO_RAW } from "@swf/common";
+import {
+  RealEstateMessage,
+  RealEstateAverageMessage,
+  RealEstateAverageMessageSchema,
+} from "@swf/schema";
 
 type AvgState = {
   sum: number;
@@ -21,26 +25,39 @@ const registry = new SchemaRegistry(
   }
 );
 
-const shopMsgStream = factory.getKStream(TOPIC_SHOP_MESSAGES);
+function startDataTransform() {
+  //const schemaId = await registerSchema();
+  const immostream = factory.getKStream(TOPIC_IMMO_RAW);
+  immostream
+    .scan(
+      (currentStateRaw, { value }) => {
+        const currentState = JSON.parse(currentStateRaw) as AvgState;
 
-shopMsgStream
-  .scan(
-    async (currentState, { value }) => {
-      const msg: ShopMessage = await registry.decode(value);
-      const newState: AvgState = {
-        count: currentState.count + 1,
-        sum: currentState.sum + msg.price,
-        avg: (currentState.sum + msg.price) / currentState.count,
-      };
+        if (!value) {
+          return currentState;
+        }
 
-      return newState;
-    },
-    {
-      count: 0,
-      sum: 0,
-      avg: 0,
-    } satisfies AvgState
-  )
-  .to(TOPIC_AVERAGE_PRICE);
+        const msgRaw = value.subarray(5).toString();
+        const msg = JSON.parse(msgRaw) as RealEstateMessage;
+        const newState: AvgState = {
+          count: currentState.count + 1,
+          sum: currentState.sum + (msg.price as number),
+          avg: (currentState.sum + (msg.price as number)) / currentState.count,
+        };
 
-shopMsgStream.start();
+        //const value = await registry.encode(schemaId, news);
+
+        return JSON.stringify(newState);
+      },
+      JSON.stringify({
+        count: 0,
+        sum: 0,
+        avg: 0,
+      } satisfies AvgState)
+    )
+    .to(TOPIC_IMMO_AVG);
+
+  immostream.start();
+}
+
+startDataTransform();
