@@ -21,6 +21,8 @@ async function main() {
 
   await consumer.run({
     eachMessage: async ({ message }) => {
+      console.log("key", message.key);
+
       if (!message.value) {
         return;
       }
