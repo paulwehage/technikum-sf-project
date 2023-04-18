@@ -9,7 +9,8 @@
     "start": "npm run start:crawler && npm run start:data-transform && npm run start:api",
     "start:crawler": "npm -w packages/crawler run start",
     "start:data-transform": "npm -w packages/data-transform run start",
-    "start:api": "npm -w packages/api run start"
+    "start:api": "npm -w packages/api run start",
+    "start:web": "npm -w packages/web run dev"
   },
   "devDependencies": {
     "prettier": "^2.8.4",
