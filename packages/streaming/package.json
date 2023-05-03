@@ -1,0 +1,8 @@
+{
+  "name": "@swf/streaming",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npm run start:unix",
+    "start:unix": "./gradlew run"
+  }
+}
