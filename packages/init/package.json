@@ -6,8 +6,7 @@
   },
   "dependencies": {
     "@swf/schema": "*",
-    "@swf/common": "*",
-    "@kafkajs/confluent-schema-registry": "^3.3.0"
+    "@swf/common": "*"
   },
   "devDependencies": {
     "@types/node": "^18.14.6",

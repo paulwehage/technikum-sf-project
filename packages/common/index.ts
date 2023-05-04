@@ -1,5 +1,3 @@
-const KAFKAHOST = "localhost:9092";
-
 const TOPIC_IMMO_DATA = "immo-data";
 const TOPIC_AVG_PRICES = "avg-prices";
 
@@ -11,10 +9,4 @@ function getTimeSeriesKey(district: number) {
   return `district-${district}`;
 }
 
-export {
-  TOPIC_IMMO_DATA,
-  TOPIC_AVG_PRICES,
-  KAFKAHOST,
-  sleep,
-  getTimeSeriesKey,
-};
+export { TOPIC_IMMO_DATA, TOPIC_AVG_PRICES, sleep, getTimeSeriesKey };
