@@ -1,5 +1,5 @@
 import { Kafka } from "kafkajs";
-import { sleep, TOPIC_IMMO_DATA } from "@swf/common";
+import { sleep, TOPIC_IMMO_DATA } from "@sfr/common";
 
 const broker = process.env.KAFKA_HOST ?? "localhost:9092";
 const kafka = new Kafka({

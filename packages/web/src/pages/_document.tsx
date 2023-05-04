@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <title>SWF</title>
+        <title>SFR</title>
       </Head>
 
       <body className="bg-stone-50">

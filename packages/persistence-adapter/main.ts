@@ -1,7 +1,7 @@
 import { Kafka } from "kafkajs";
 import { createClient } from "redis";
 
-import { getTimeSeriesKey, sleep, TOPIC_AVG_PRICES } from "@swf/common";
+import { getTimeSeriesKey, sleep, TOPIC_AVG_PRICES } from "@sfr/common";
 
 const client = createClient({
   url: process.env.REDIS_URL,

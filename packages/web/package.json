@@ -1,5 +1,5 @@
 {
-  "name": "@swf/web",
+  "name": "@sfr/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@swf/common": "*",
+    "@sfr/common": "*",
     "@types/node": "18.15.11",
     "@types/react": "18.0.37",
     "@types/react-dom": "18.0.11",

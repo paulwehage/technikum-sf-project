@@ -1,5 +1,5 @@
 {
-  "name": "@swf/streaming",
+  "name": "@sfr/streaming",
   "version": "1.0.0",
   "scripts": {
     "start": "npm run start:unix",

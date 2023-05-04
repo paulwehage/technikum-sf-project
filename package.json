@@ -1,5 +1,5 @@
 {
-  "name": "@swf/mono",
+  "name": "@sfr/mono",
   "version": "1.0.0",
   "workspaces": [
     "./packages/*"

@@ -1,7 +1,7 @@
 import { createClient } from "redis";
 import { TimeSeriesDuplicatePolicies } from "@redis/time-series";
 
-import { getTimeSeriesKey } from "@swf/common";
+import { getTimeSeriesKey } from "@sfr/common";
 
 const client = createClient({
   url: process.env.REDIS_URL,

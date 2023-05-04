@@ -1,5 +1,5 @@
 {
-  "name": "@swf/common",
+  "name": "@sfr/common",
   "version": "1.0.0",
   "exports": "./index.ts",
   "devDependencies": {

@@ -1,11 +1,11 @@
 {
-  "name": "@swf/crawler",
+  "name": "@sfr/crawler",
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node main.ts"
   },
   "dependencies": {
-    "@swf/common": "*",
+    "@sfr/common": "*",
     "ajv": "^8.12.0",
     "jsdom": "^21.1.1",
     "kafka-streams": "^5.0.0",

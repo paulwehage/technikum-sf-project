@@ -1,11 +1,11 @@
 {
-  "name": "@swf/init",
+  "name": "@sfr/init",
   "version": "1.0.0",
   "scripts": {
     "init": "ts-node main.ts"
   },
   "dependencies": {
-    "@swf/common": "*"
+    "@sfr/common": "*"
   },
   "devDependencies": {
     "@types/node": "^18.14.6",
