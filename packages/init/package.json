@@ -5,7 +5,6 @@
     "init": "ts-node main.ts"
   },
   "dependencies": {
-    "@swf/schema": "*",
     "@swf/common": "*"
   },
   "devDependencies": {

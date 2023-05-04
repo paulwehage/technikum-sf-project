@@ -1,8 +1,19 @@
 import { createClient } from "redis";
 
+const client = createClient({
+  url: process.env.REDIS_URL,
+});
+
+async function getClient() {
+  if (!client.isOpen) {
+    await client.connect();
+  }
+
+  return client;
+}
+
 async function getAveragePrices() {
-  const client = createClient();
-  await client.connect();
+  const client = await getClient();
 
   const data: {
     [district: number]: { price: number; timestamp: number } | null;

@@ -30,3 +30,44 @@ services:
       - 6379:6379
     expose:
       - 6379
+
+  init:
+    build:
+      dockerfile: ./packages/init/Dockerfile
+    depends_on:
+      - kafka
+      - redis
+    environment:
+      KAFKA_HOST: kafka:29092
+      REDIS_URL: redis://redis:6379
+    restart: "no"
+
+  crawler:
+    build:
+      dockerfile: ./packages/crawler/Dockerfile
+    depends_on:
+      - init
+    environment:
+      KAFKA_HOST: kafka:29092
+    restart: always
+
+  persistence-adapter:
+    build:
+      dockerfile: ./packages/persistence-adapter/Dockerfile
+    depends_on:
+      - init
+    environment:
+      KAFKA_HOST: kafka:29092
+      REDIS_URL: redis://redis:6379
+    restart: always
+
+  web:
+    build:
+      dockerfile: ./packages/web/Dockerfile
+    depends_on:
+      - init
+    environment:
+      REDIS_URL: redis://redis:6379
+    restart: always
+    ports:
+      - 3000:3000

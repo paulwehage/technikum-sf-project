@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { getAveragePrices } from "@/service/averagePrice";
+import { getAveragePrices } from "@/services/averagePrice";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

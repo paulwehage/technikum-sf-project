@@ -3,12 +3,14 @@ import { createClient } from "redis";
 
 import { getTimeSeriesKey, sleep, TOPIC_AVG_PRICES } from "@swf/common";
 
-const client = createClient();
-
-const kafka = new Kafka({
-  brokers: ["localhost:9092"],
+const client = createClient({
+  url: process.env.REDIS_URL,
 });
 
+const broker = process.env.KAFKA_HOST ?? "localhost:9092";
+const kafka = new Kafka({
+  brokers: [broker],
+});
 const consumer = kafka.consumer({
   groupId: "api",
 });

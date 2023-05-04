@@ -3,7 +3,9 @@ import { TimeSeriesDuplicatePolicies } from "@redis/time-series";
 
 import { getTimeSeriesKey } from "@swf/common";
 
-const client = createClient();
+const client = createClient({
+  url: process.env.REDIS_URL,
+});
 
 async function createTimeSeries() {
   await client.connect();

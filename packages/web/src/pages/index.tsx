@@ -1,4 +1,4 @@
-import { getAveragePrices } from "@/service/averagePrice";
+import { getAveragePrices } from "@/services/averagePrice";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 

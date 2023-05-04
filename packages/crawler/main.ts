@@ -1,8 +1,9 @@
 import { Kafka } from "kafkajs";
 import { sleep, TOPIC_IMMO_DATA } from "@swf/common";
 
+const broker = process.env.KAFKA_HOST ?? "localhost:9092";
 const kafka = new Kafka({
-  brokers: ["localhost:9092"],
+  brokers: [broker],
 });
 const producer = kafka.producer();
 
