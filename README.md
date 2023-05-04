@@ -9,5 +9,5 @@ App to display the average square meter price of each district in Vienna in real
 ## Start
 
 ```
-docker compose up -d
+docker compose up -d --build
 ```
