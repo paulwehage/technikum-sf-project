@@ -20,20 +20,21 @@ import lombok.extern.slf4j.Slf4j;
 public class App {
 
     public static void main(String[] args) {
+        System.out.println("Calculating average prices by district...");
 
         StreamsBuilder builder = new StreamsBuilder();
 
         builder.stream(KafkaHelper.TOPIC_IMMO_DATA, Consumed.with(Serdes.String(), getImmoMessageSerde()))
                 .groupByKey().aggregate(Avg::new,
                         (key, immoMessage, aggregator) -> {
-                            System.out.println("Preis " + immoMessage.getPrice());
-                            return new Avg(0, 0);
+                            aggregator.add(immoMessage.getPrice());
+                            return aggregator;
                         },
                         Materialized.<String, Avg, KeyValueStore<Bytes, byte[]>>as(
                                 KafkaHelper.TOPIC_AGGREGATED_BY_DISTRICT_DATA))
                 .toStream().mapValues(Avg::getAvg)
                 .to(KafkaHelper.TOPIC_AVG_PRICES, Produced.with(Serdes.String(),
-                        Serdes.Double()));
+                        Serdes.Float()));
 
         // Create topology
         Topology topology = builder.build();
@@ -43,18 +44,11 @@ public class App {
         streams.cleanUp();
         streams.start();
 
-        System.out.println("Test");
     }
 
     public static Serde<ImmoMessage> getImmoMessageSerde() {
         JsonSerializer<ImmoMessage> serializer = new JsonSerializer<>();
         JsonDeserializer<ImmoMessage> deserializer = new JsonDeserializer<>(ImmoMessage.class);
-        return Serdes.serdeFrom(serializer, deserializer);
-    }
-
-    public static Serde<Avg> getAvgSerde() {
-        JsonSerializer<Avg> serializer = new JsonSerializer<>();
-        JsonDeserializer<Avg> deserializer = new JsonDeserializer<>(Avg.class);
         return Serdes.serdeFrom(serializer, deserializer);
     }
 }

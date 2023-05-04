@@ -27,7 +27,7 @@ public class Avg {
         this.count++;
     }
 
-    public double getAvg() {
+    public float getAvg() {
         return this.sum / this.count;
     }
 }

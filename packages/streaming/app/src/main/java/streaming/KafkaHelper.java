@@ -21,6 +21,7 @@ public class KafkaHelper {
         properties.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 
         properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, AvgSerde.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, streaming.JsonSerializer.class);
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, streaming.JsonDeserializer.class);
 
