@@ -1,7 +1,7 @@
 const KAFKAHOST = "localhost:9092";
 
-const TOPIC_IMMO_RAW = "immo-stream";
-const TOPIC_IMMO_AVG = "immo-avg";
+const TOPIC_IMMO_DATA = "immo-data";
+const TOPIC_AVG_PRICES = "avg-prices";
 
 async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -11,4 +11,10 @@ function getTimeSeriesKey(district: number) {
   return `district-${district}`;
 }
 
-export { TOPIC_IMMO_RAW, TOPIC_IMMO_AVG, KAFKAHOST, sleep, getTimeSeriesKey };
+export {
+  TOPIC_IMMO_DATA,
+  TOPIC_AVG_PRICES,
+  KAFKAHOST,
+  sleep,
+  getTimeSeriesKey,
+};

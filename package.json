@@ -6,9 +6,11 @@
   ],
   "scripts": {
     "fmt": "prettier --write .",
+    "init": "npm -w packages/init run init",
     "start": "npm run start:crawler && npm run start:data-transform && npm run start:api",
     "start:crawler": "npm -w packages/crawler run start",
     "start:streaming": "npm -w packages/streaming run start",
+    "start:persistence-adapter": "npm -w packages/persistence-adapter run start",
     "start:api": "npm -w packages/api run start",
     "start:web": "npm -w packages/web run dev"
   },

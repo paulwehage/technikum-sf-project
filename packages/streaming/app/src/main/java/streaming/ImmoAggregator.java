@@ -8,5 +8,4 @@ public class ImmoAggregator implements Aggregator<String, ImmoMessage, Float> {
     public Float apply(String key, ImmoMessage value, Float aggregate) {
         return 0F;
     }
-
 }

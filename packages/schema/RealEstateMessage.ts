@@ -6,11 +6,10 @@ const ajv = new Ajv();
 const RealEstateMessageSchema = {
   type: "object",
   properties: {
-    date: { type: "string" },
-    source: { type: "string" },
     price: { type: "number" },
-    district: { type: "number" },
-    squareMeters: { type: "number" },
+    address: { type: "string" },
+    description: { type: "string" },
+    district: { type: "string" },
   },
   required: ["date", "source", "price", "district", "squareMeters"],
   additionalProperties: false,
