@@ -44,7 +44,7 @@ async function startCrawling() {
       messages,
     });
 
-    await sleep(10 * 1000);
+    await sleep(3 * 1000);
   }
 }
 

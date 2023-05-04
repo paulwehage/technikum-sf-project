@@ -31,6 +31,10 @@ async function main() {
       const averagePrice = message.value.readFloatBE();
 
       await client.ts.add(getTimeSeriesKey(district), date, averagePrice);
+      await client.publish(
+        "average-price-update",
+        JSON.stringify({ district, averagePrice, timestamp: date.getTime() })
+      );
     },
   });
 }

@@ -12,16 +12,26 @@ export default function Home({
   const [averagePrices, setAveragePrices] = useState(initialAveragePrices);
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const result = await fetch("/api/averagePrices").then((res) =>
-        res.json()
-      );
+    const es = new EventSource("/api/averagePrices/stream");
 
-      setAveragePrices(result.data);
-    }, 500);
+    es.addEventListener("message", (event) => {
+      const data = JSON.parse(event.data) as {
+        district: string;
+        averagePrice: number;
+        timestamp: number;
+      };
 
-    return () => clearInterval(interval);
-  }, []);
+      setAveragePrices((averagePrices) => ({
+        ...averagePrices,
+        [data.district]: {
+          price: data.averagePrice,
+          timestamp: data.timestamp,
+        },
+      }));
+    });
+
+    return () => es.close();
+  }, [setAveragePrices]);
 
   return (
     <main className="mx-auto mt-6 max-w-4xl p-12">

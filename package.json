@@ -13,7 +13,7 @@
     "start:persistence-adapter": "npm -w packages/persistence-adapter run start",
     "start:api": "npm -w packages/api run start",
     "start:web": "npm -w packages/web run start",
-    "start:dev": "npm -w packages/web run dev"
+    "dev:web": "npm -w packages/web run dev"
   },
   "devDependencies": {
     "prettier": "^2.8.4",
