@@ -16,9 +16,12 @@ public class KafkaHelper {
     public static Properties getProperties() {
         Properties properties = new Properties();
 
+        String broker = System.getenv("KAFKA_HOST");
+
         // TODO: Read config from environment
-        properties.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, "unimmo");
-        properties.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        properties.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, "average-price-aggregator");
+        properties.setProperty(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,
+                broker == null ? "localhost:9092" : broker);
 
         properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, AvgSerde.class);

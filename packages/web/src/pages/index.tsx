@@ -41,7 +41,7 @@ export default function Home({
                 scope="col"
                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Preis
+                Preis / m²
               </th>
               <th
                 scope="col"

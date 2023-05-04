@@ -1,18 +1,24 @@
 package streaming;
 
 public class ImmoMessage {
-    private float price;
+    private float pricePerSquareMeter;
+    private float area;
     private String address;
     private String description;
 
-    public ImmoMessage(float price, String address, String description) {
-        this.price = price;
+    public ImmoMessage(float pricePerSquareMeter, float area, String address, String description) {
+        this.pricePerSquareMeter = pricePerSquareMeter;
+        this.area = area;
         this.address = address;
         this.description = description;
     }
 
-    public float getPrice() {
-        return price;
+    public float getPricePerSquareMeter() {
+        return pricePerSquareMeter;
+    }
+
+    public float getArea() {
+        return area;
     }
 
     public String getAddress() {

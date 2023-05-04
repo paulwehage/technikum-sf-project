@@ -9,13 +9,16 @@ const producer = kafka.producer();
 
 async function crawl() {
   const district = Math.floor(Math.random() * 23) + 1;
-  const price = Math.floor(Math.random() * 1000000) + 100000;
+  const pricePerSquareMeter =
+    Math.floor(Math.random() * 5) + 10 + (23 - district);
+  const area = Math.floor(Math.random() * 200) + 30;
 
   return {
-    price,
+    area,
+    pricePerSquareMeter,
     district: district.toString(),
-    address: "",
-    description: "",
+    address: "Beispielstraße 1",
+    description: "Eine nette Wohnung",
   };
 }
 

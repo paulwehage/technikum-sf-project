@@ -1,7 +1,7 @@
 import { Kafka } from "kafkajs";
 import { createClient } from "redis";
 
-import { getTimeSeriesKey, sleep, TOPIC_AVG_PRICES } from "@sfr/common";
+import { getTimeSeriesKey, TOPIC_AVG_PRICES } from "@sfr/common";
 
 const client = createClient({
   url: process.env.REDIS_URL,
@@ -12,7 +12,7 @@ const kafka = new Kafka({
   brokers: [broker],
 });
 const consumer = kafka.consumer({
-  groupId: "api",
+  groupId: "persistence-adapter",
 });
 
 async function main() {
@@ -26,28 +26,13 @@ async function main() {
         return;
       }
 
+      const date = new Date();
       const district = parseInt(message.key.toString());
-      const msg = JSON.parse(message.value.toString());
-      const date = Date.now();
+      const averagePrice = message.value.readFloatBE();
 
-      await client.ts.add(getTimeSeriesKey(district), date, msg.avg as number);
+      await client.ts.add(getTimeSeriesKey(district), date, averagePrice);
     },
   });
 }
 
-async function mock() {
-  await client.connect();
-
-  while (true) {
-    const date = new Date();
-    const district = Math.floor(Math.random() * 23) + 1;
-    const avgPrice = Math.floor(Math.random() * 1000000) + 100000;
-
-    await client.ts.add(getTimeSeriesKey(district), date, avgPrice as number);
-
-    await sleep(5 * 1000);
-  }
-}
-
-// main();
-mock();
+main();

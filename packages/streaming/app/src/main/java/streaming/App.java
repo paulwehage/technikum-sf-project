@@ -27,7 +27,7 @@ public class App {
         builder.stream(KafkaHelper.TOPIC_IMMO_DATA, Consumed.with(Serdes.String(), getImmoMessageSerde()))
                 .groupByKey().aggregate(Avg::new,
                         (key, immoMessage, aggregator) -> {
-                            aggregator.add(immoMessage.getPrice());
+                            aggregator.add(immoMessage.getPricePerSquareMeter());
                             return aggregator;
                         },
                         Materialized.<String, Avg, KeyValueStore<Bytes, byte[]>>as(
