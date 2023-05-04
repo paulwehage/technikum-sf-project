@@ -20,7 +20,9 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
 
-    implementation 'org.apache.kafka:kafka-clients:2.8.0'
+    implementation 'org.apache.kafka:kafka-clients:3.4.0'
+
+    implementation 'org.apache.kafka:kafka-streams:3.4.0'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
